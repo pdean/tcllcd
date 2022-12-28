@@ -25,20 +25,26 @@ oo::objdefine gps {
         set data [$GPS poll]
         set tpv [lindex [dict get $data tpv] end]
         set sky [lindex [dict get $data sky] end]
-        catch {unset track}
         dict with tpv {}
         dict with sky {}
-        if {$mode >=2} {
-            if {![info exists track]} { set track 0.0 }
-            lcd puts "widget_set $scr ${scr}1 1 1 {[format "lat: %.6f" $lat]}"
-            lcd puts "widget_set $scr ${scr}2 1 2 {[format "lon: %.6f" $lon]}"
-            lcd puts "widget_set $scr ${scr}3 1 3 {hdop: $hdop}"
-            lcd puts "widget_set $scr ${scr}4 1 4 {$speed m/s [compass $track]}"
+        if {[info exists mode]} {
+            if {$mode >=2} {
+                if {![info exists track]} { set track 0.0 }
+                lcd puts "widget_set $scr ${scr}1 1 1 {[format "lat: %.6f" $lat]}"
+                lcd puts "widget_set $scr ${scr}2 1 2 {[format "lon: %.6f" $lon]}"
+                lcd puts "widget_set $scr ${scr}3 1 3 {hdop: $hdop}"
+                lcd puts "widget_set $scr ${scr}4 1 4 {$speed m/s [compass $track]}"
+            } else {
+                lcd puts "widget_set $scr ${scr}1 1 1 {no fix}"
+                lcd puts "widget_set $scr ${scr}2 1 2 {no fix}"
+                lcd puts "widget_set $scr ${scr}3 1 3 {no fix}"
+                lcd puts "widget_set $scr ${scr}4 1 4 {no fix}"
+            }
         } else {
-            lcd puts "widget_set $scr ${scr}1 1 1 {no fix}"
-            lcd puts "widget_set $scr ${scr}2 1 2 {no fix}"
-            lcd puts "widget_set $scr ${scr}3 1 3 {no fix}"
-            lcd puts "widget_set $scr ${scr}4 1 4 {no fix}"
+            lcd puts "widget_set $scr ${scr}1 1 1 {no gps}"
+            lcd puts "widget_set $scr ${scr}2 1 2 {no gps}"
+            lcd puts "widget_set $scr ${scr}3 1 3 {no gps}"
+            lcd puts "widget_set $scr ${scr}4 1 4 {no gps}"
         }
     }
 }
