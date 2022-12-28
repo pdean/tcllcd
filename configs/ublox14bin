@@ -1,0 +1,9 @@
+#!/bin/sh
+export UBXOPTS="-P 14 -v 2"
+ubxtool -p RESET
+ubxtool -e binary
+ubxtool -d nmea
+ubxtool -p CFG-RATE,100
+ubxtool -p MODEL,4
+ubxtool -p SAVE
+
