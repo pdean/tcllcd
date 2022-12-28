@@ -1,6 +1,7 @@
 # gps position
 
 package require gpsd
+package require trig
 
 oo::object create gps
 
@@ -32,7 +33,7 @@ oo::objdefine gps {
             lcd puts "widget_set $scr ${scr}1 1 1 {[format "lat: %.6f" $lat]}"
             lcd puts "widget_set $scr ${scr}2 1 2 {[format "lon: %.6f" $lon]}"
             lcd puts "widget_set $scr ${scr}3 1 3 {hdop: $hdop}"
-            lcd puts "widget_set $scr ${scr}4 1 4 {$speed m/s $track deg}"
+            lcd puts "widget_set $scr ${scr}4 1 4 {$speed m/s [compass $track]}"
         } else {
             lcd puts "widget_set $scr ${scr}1 1 1 {no fix}"
             lcd puts "widget_set $scr ${scr}2 1 2 {no fix}"
