@@ -6,7 +6,8 @@ package require task
 package require lcd
 
 # define screens
-set screens [list date host uptime gps]
+set screens [list date  uptime gps]
+#set screens [list date host uptime gps]
 proc definescreens {} {
     foreach scr $::screens {
         package require $scr
