@@ -1,0 +1,12 @@
+[Unit]
+Description=tcllcd
+Requires=lcdd.service
+After=lcdd.service
+
+[Service]
+ExecStart=/usr/bin/tclsh /home/peter/git/tcllcd/tcllcd.tcl
+WorkingDirectory=/home/peter/git/tcllcd/
+
+[Install]
+WantedBy=multi-user.target
+
