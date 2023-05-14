@@ -9,13 +9,21 @@
 ## rtc
 
 * armbian-add pcf8563.dts  
-* do some hwclock stuff
-* edit /lib/udev/hwclock-set
+* todo - hwclock timedatectl details
+* edit /lib/udev/hwclock-set comment first if
 * uninstall/disable fake-hwclock
+
+## infrared remote
+
+* apt install ir-keytable 
+* check with ir-keytable -t
 
 ## lcdproc
 
 * git clone from github
-* need build-essential etc etc including libusb and dev
+* install build-essential autoconf etc etc including libusb and dev
 * sh autogen.sh
 * ./configure --enable-drivers=curses,hd44780,linux_input
+* todo - document lcd wiring to i2c1
+
+## leds
