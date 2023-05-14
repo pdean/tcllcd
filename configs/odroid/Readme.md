@@ -13,10 +13,6 @@
 * edit /lib/udev/hwclock-set comment first if
 * uninstall/disable fake-hwclock
 
-## infrared remote
-
-* apt install ir-keytable 
-* check with ir-keytable -t
 
 ## lcdproc
 
@@ -25,5 +21,11 @@
 * sh autogen.sh
 * ./configure --enable-drivers=curses,hd44780,linux_input
 * todo - document lcd wiring to i2c1
+
+## infrared remote
+
+* apt install ir-keytable 
+* check with ir-keytable -t
+* update LCDd.conf
 
 ## leds
