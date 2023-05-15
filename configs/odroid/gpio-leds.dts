@@ -1,0 +1,30 @@
+/dts-v1/;
+/plugin/;
+
+
+/ {
+    fragment@0 {
+        target-path = "/";
+
+        __overlay__ {
+		leds {
+			compatible = "gpio-leds";
+			status = "okay";
+
+			red {
+				gpios = <&gpio 79 0>;
+			};
+
+			yellow {
+				gpios = <&gpio 80 0>;
+			};
+
+			green {
+				gpios = <&gpio 71 0>;
+			};
+		};
+
+        };
+    };
+};
+
