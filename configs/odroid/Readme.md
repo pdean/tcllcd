@@ -29,3 +29,22 @@
 * update LCDd.conf
 
 ## leds
+
+### for testing without sudo  
+* sudo groupadd leds
+* sudo usermod -aG leds peter
+* sudo cp 60-leds.rules /etc/udev/rules.d/
+
+### definition for traffic light on GPIOX_14,_15,_6  
+
+* sudo armbian-add-overlay gpio-leds.dts
+
+### add module for timer trigger (blinking)
+
+* sudo modprobe ledtrig-timer
+* **todo** load automatically?
+
+ 
+
+
+
