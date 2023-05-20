@@ -1,8 +1,8 @@
 # date/time screen
 
-oo::object create date
+oo::object create datetime
 
-oo::objdefine date {
+oo::objdefine datetime {
     variable scr 
 
     method definescreen {} {
@@ -17,4 +17,4 @@ oo::objdefine date {
     }
 }
 
-package provide date 1.0
+package provide datetime 1.0
