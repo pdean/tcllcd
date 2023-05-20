@@ -8,16 +8,7 @@ oo::objdefine uptime {
 
     method definescreen {} {
         set scr [namespace tail [self]]
-
-        lcd puts "screen_add $scr"
-        lcd puts "screen_set $scr -heartbeat off"
-        lcd puts "widget_add $scr ${scr}1 string"
-        lcd puts "widget_add $scr ${scr}2 string"
-        lcd puts "widget_add $scr ${scr}3 string"
-        lcd puts "widget_add $scr ${scr}4 string"
-        lcd puts "widget_set $scr ${scr}1 1 1 {}"
-        lcd puts "widget_set $scr ${scr}3 1 3 {}"
-        lcd puts "widget_set $scr ${scr}4 1 4 {}"
+        lcd defscr $scr
     }
 
     method updatescreen {} {
@@ -34,7 +25,7 @@ oo::objdefine uptime {
         set sec     [% [int $up] 60] 
 
         set uptime [format "Up %d days %02d:%02d:%02d" $days $hour $min $sec]
-        lcd puts "widget_set $scr ${scr}2 1 2 {$uptime}"
+        lcd putlines $scr [list {} {} $uptime {}]
     }
 }
 

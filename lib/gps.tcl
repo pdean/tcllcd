@@ -10,13 +10,7 @@ oo::objdefine gps {
 
     method definescreen {} {
         set scr [namespace tail [self]]
-        lcd puts "screen_add $scr"
-        lcd puts "screen_set $scr -heartbeat off"
-        lcd puts "widget_add $scr ${scr}1 string"
-        lcd puts "widget_add $scr ${scr}2 string"
-        lcd puts "widget_add $scr ${scr}3 string"
-        lcd puts "widget_add $scr ${scr}4 string"
-
+        lcd defscr $scr
         set GPS [gpsd new]
     }
 
@@ -30,23 +24,22 @@ oo::objdefine gps {
         if {[info exists mode]} {
             if {$mode >=2} {
                 if {![info exists track]} { set track 0.0 }
-                lcd puts "widget_set $scr ${scr}1 1 1 {[format "lat: %.6f" $lat]}"
-                lcd puts "widget_set $scr ${scr}2 1 2 {[format "lon: %.6f" $lon]}"
-                lcd puts "widget_set $scr ${scr}3 1 3 {hdop: $hdop}"
-                lcd puts "widget_set $scr ${scr}4 1 4 {$speed m/s [compass $track]}"
+                set l1 [format "lat: %.6f" $lat]
+                set l2 [format "lon: %.6f" $lon]
+                set l3 "hdop: $hdop"
+                set l4 "$speed m/s [compass $track]"
+                lcd putlines $scr [list $l1 $l2 $l3 $l4]
             } else {
-                lcd puts "widget_set $scr ${scr}1 1 1 {no fix}"
-                lcd puts "widget_set $scr ${scr}2 1 2 {no fix}"
-                lcd puts "widget_set $scr ${scr}3 1 3 {no fix}"
-                lcd puts "widget_set $scr ${scr}4 1 4 {no fix}"
+                set l1 "no fix"
+                lcd putlines $scr [list $l1 $l1 $l1 $l1]
             }
         } else {
-            lcd puts "widget_set $scr ${scr}1 1 1 {no gps}"
-            lcd puts "widget_set $scr ${scr}2 1 2 {no gps}"
-            lcd puts "widget_set $scr ${scr}3 1 3 {no gps}"
-            lcd puts "widget_set $scr ${scr}4 1 4 {no gps}"
+            set l1 "no gps" 
+            lcd putlines $scr [list $l1 $l1 $l1 $l1]
         }
     }
 }
 
 package provide gps 1.0
+
+# vim: set sts=4 sw=4 tw=80 et ft=tcl:
