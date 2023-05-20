@@ -11,8 +11,8 @@ oo::objdefine datetime {
     }
 
     method updatescreen {} {
-        set time [clock format [clock seconds] -format %X -locale current]
-        set date [clock format [clock seconds] -format %x -locale current]
+        set time [clock format [clock seconds] -format %X -locale en_au]
+        set date [clock format [clock seconds] -format %x -locale en_au]
         lcd putlines $scr [list {} $time $date {}]
     }
 }
