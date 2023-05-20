@@ -52,20 +52,23 @@ oo::objdefine tmr {
     method updatescreen {} {
         set data [$GPS poll]
         set tpv [lindex [dict get $data tpv] end]
-
         dict with tpv {}
+
         if {[info exists mode]} {
             if {$mode >= 2} {
                 lassign [$pt2ch allrows [dict create lat $lat lon $lon]] res
+                #puts "$time: $res"
                 dict with res {}
-                lassign [split $time T] date time
-                #lassign [split $description |] sec desc
-                set chos [format "%.3f km  %.0f m" $ch $os]
+
+                if {![info exists track]} { set track 0.0 }
                 set vehicle [format "speed %.0f m/s  %s" $speed [ compass $track]]
-                #lcd puts "widget_set $scr ${scr}1 1 1 {$time}"
                 lcd puts "widget_set $scr ${scr}2 1 2 {$vehicle}"
-                lcd puts "widget_set $scr ${scr}3 1 3 20 3 h 2 {$description}"
+                
+                set chos [format "%.3f km  %.0f m" $ch $os]
                 lcd puts "widget_set $scr ${scr}4 1 4 {$chos}"
+                
+                lcd puts "widget_set $scr ${scr}3 1 3 20 3 h 2 {$description}"
+
             } else {
                 lcd puts "widget_set $scr ${scr}2 1 2 {NO FIX}"
             }

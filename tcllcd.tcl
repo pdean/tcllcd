@@ -5,6 +5,13 @@ lappend auto_path lib
 package require task
 package require lcd
 
+# database
+
+package require tdbc::postgres
+set conninfo [list -host localhost -db gis -user gis]
+tdbc::postgres::connection create db {*}$conninfo
+
+
 # define screens
 #set screens [list date  uptime gps]
 set screens [list datetime host uptime gps tmr]
