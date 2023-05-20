@@ -1,6 +1,7 @@
 # tmr road location
 # https://www.data.qld.gov.au/dataset/road-location-and-traffic-data
 
+package require trig
 package require gpsd
 
 oo::object create tmr
