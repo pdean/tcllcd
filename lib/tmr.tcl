@@ -1,10 +1,12 @@
 # tmr road location
 # https://www.data.qld.gov.au/dataset/road-location-and-traffic-data
 
+package require gpsd
+
 oo::object create tmr
 
 oo::objdefine tmr {
-    variable scr pt2ch
+    variable scr pt2ch GPS
 
     method definescreen {} {
         set scr [namespace tail [self]]
@@ -43,9 +45,14 @@ oo::objdefine tmr {
         lcd puts "widget_add $scr ${scr}2 string"
         lcd puts "widget_add $scr ${scr}3 scroller"
         lcd puts "widget_add $scr ${scr}4 string"
+
+        set GPS [gpsd new]
     }
 
-    method updatescreen {tpv} {
+    method updatescreen {} {
+        set data [$GPS poll]
+        set tpv [lindex [dict get $data tpv] end]
+
         dict with tpv {}
         if {[info exists mode]} {
             if {$mode >= 2} {
@@ -69,3 +76,5 @@ oo::objdefine tmr {
 }
 
 package provide tmr 1.0
+#
+# vim: set sts=4 sw=4 tw=80 et ft=tcl:
