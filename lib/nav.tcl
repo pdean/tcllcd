@@ -1,24 +1,28 @@
 # nav to nearest point in line of travel approx
 #
 
+package require trig
+package require gpsd
+
 package require tdom
 
 oo::class create Nav {
     constructor {} {
         puts "created [self]"
     }
-    method updatescreen {tpv} {
-        tailcall nav updatescreen $tpv [namespace tail [self]]
+    method updatescreen {} {
+        tailcall nav updatescreen [namespace tail [self]]
     }
 }
 
 oo::object create nav
 
 oo::objdefine nav {
-    variable dbpoint findnext findclose loads
+    variable dbpoint findnext findclose loads GPS
 
     method definescreen {} {
-
+        set GPS [gpsd new]
+ 
         db allrows { DROP SCHEMA IF EXISTS nav CASCADE}
         db allrows { CREATE SCHEMA nav }
         db allrows {
@@ -121,7 +125,9 @@ oo::objdefine nav {
         return 1
     }
 
-    method updatescreen {tpv scr} {
+    method updatescreen {scr} {
+        set data [$GPS poll]
+        set tpv [lindex [dict get $data tpv] end]
         dict with tpv {}
         if {[info exists mode]} {
             if {$mode >= 2} {
@@ -142,6 +148,7 @@ oo::objdefine nav {
                         green off 
                         yellow off
                     }
+                    if {![info exists track]} { set track 0.0 }
                     set vehicle [format "speed %.0f m/s  %s" $speed [ compass $track]]
                     set point [format "dist %.0fm %s" $dist [ compass $brg]]
                     set desc "$name $description"
@@ -161,3 +168,5 @@ oo::objdefine nav {
 }
 
 package provide nav 1.0
+#
+# vim: set sts=4 sw=4 tw=80 et ft=tcl:
