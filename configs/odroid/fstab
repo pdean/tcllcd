@@ -1,0 +1,4 @@
+UUID=15c6a926-2ff7-4386-ae1d-b9aa9de31a3d / ext4 defaults,noatime,commit=600,errors=remount-ro 0 1
+tmpfs /tmp tmpfs defaults,nosuid 0 0
+
+/dev/sda1  /mnt/usb  vfat  rw,users,umask=0,noauto,nofail,x-systemd.automount,x-systemd.idle-timeout=2,x-systemd.device-timeout=2 0 0

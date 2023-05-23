@@ -1,7 +1,9 @@
 [Unit]
 Description=tcllcd
-Requires=lcdd.service
-After=lcdd.service
+#Requires=lcdd.service
+#After=lcdd.service
+Requires=lcdd.service gpsd.service postgresql.service
+After=lcdd.service gpsd.service postgresql.service
 
 [Service]
 ExecStart=/usr/bin/tclsh /home/peter/git/tcllcd/tcllcd.tcl

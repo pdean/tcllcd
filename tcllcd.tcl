@@ -14,7 +14,8 @@ tdbc::postgres::connection create db {*}$conninfo
 
 # define screens
 #set screens [list date  uptime gps]
-set screens [list datetime host uptime gps tmr]
+set screens [list datetime uptime gps tmr]
+#set screens [list datetime host uptime gps tmr]
 proc definescreens {} {
     foreach scr $::screens {
         package require $scr
