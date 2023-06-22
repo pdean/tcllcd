@@ -42,7 +42,7 @@
 ### add module for timer trigger (blinking)
 
 * sudo modprobe ledtrig-timer
-* **todo** load automatically?
+* add to /etc/modules-load.d/modules.conf
 
  
 
