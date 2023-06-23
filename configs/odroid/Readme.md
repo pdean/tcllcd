@@ -17,7 +17,7 @@
 ## lcdproc
 
 * git clone from github
-* install build-essential autoconf etc etc including libusb and dev
+* apt install build-essential libusb-dev libncurses-dev pkg-config
 * sh autogen.sh
 * ./configure --enable-drivers=curses,hd44780,linux_input
 * **todo** - document lcd wiring to i2c1
