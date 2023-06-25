@@ -11,15 +11,15 @@
 			compatible = "gpio-leds";
 			status = "okay";
 
-			led1 {
+			red {
 				gpios = <&gpio 79 0>;
 			};
 
-			led2 {
+			yellow {
 				gpios = <&gpio 80 0>;
 			};
 
-			led3 {
+			green {
 				gpios = <&gpio 71 0>;
 			};
 		};
