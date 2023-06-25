@@ -44,7 +44,9 @@
 * sudo modprobe ledtrig-timer
 * add to /etc/modules-load.d/modules.conf
 
- 
+## automount usb
 
+* sudo mkdir /mnt/usb
+* add to fstab 
 
-
+    /dev/sda1  /mnt/usb  vfat  rw,users,umask=0,noauto,nofail,x-systemd.automount,x-systemd.idle-timeout=2,x-systemd.device-timeout=2 0 0  
