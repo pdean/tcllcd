@@ -14,7 +14,7 @@ oo::objdefine host {
 
     method updatescreen {} {
         set host [info host]
-        set ip [ dns::address [dns::resolve $host]] 
+        set ip [ dns::address [dns::resolve ${host}.local]] 
 	lcd putlines $scr [list {} "hostname = $host" "ip = $ip" {}]
     }
 }
