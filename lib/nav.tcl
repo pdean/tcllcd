@@ -131,24 +131,28 @@ oo::objdefine nav {
         dict with tpv {}
         if {[info exists mode]} {
             if {$mode >= 2} {
+		if {![info exists track]} { set track 0.0 }
                 lassign [$findnext allrows \
                     [dict create lat $lat lon $lon scr $scr track $track]] res
                 if {[llength $res]} {
                     dict with res {}
                     if {$dist < 100} {
-                        green blink
-                        yellow off
-                        red off
+                        led1 blink
+                        led2 off
+                        led3 off
                     } elseif {$dist < 200} {
-                        yellow blink
-                        red off 
-                        green off  
+                        led2 blink
+                        led3 off 
+                        led1 off  
                     } elseif {$dist < 300} {
-                        red blink
-                        green off 
-                        yellow off
+                        led3 blink
+                        led1 off 
+                        led2 off
+                    } else {
+                        led3 off
+                        led1 off 
+                        led2 off
                     }
-                    if {![info exists track]} { set track 0.0 }
                     set vehicle [format "speed %.0f m/s  %s" $speed [ compass $track]]
                     set point [format "dist %.0fm %s" $dist [ compass $brg]]
                     set desc "$name $description"
@@ -157,12 +161,21 @@ oo::objdefine nav {
                     lcd puts "widget_set $scr ${scr}4 1 4 {$point}"
                 } else {
                     lcd puts "widget_set $scr ${scr}2 1 2 {NO PTS FD}"
+                        led3 off
+                        led1 off 
+                        led2 off
                 }
             } else {
                 lcd puts "widget_set $scr ${scr}2 1 2 {NO FIX}"
+                        led3 off
+                        led1 off 
+                        led2 off
             }
         } else {
             lcd puts "widget_set $scr ${scr}2 1 2 {NO GPS?}"
+                        led3 off
+                        led1 off 
+                        led2 off
         }
     }
 }

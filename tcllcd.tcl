@@ -1,9 +1,16 @@
 #!/usr/bin/env tclsh
 # tcllcd
 
+set datadir /mnt/usb
+
 lappend auto_path lib
 package require task
 package require lcd
+
+package require led
+Led create led1
+Led create led2
+Led create led3
 
 # database
 
@@ -15,7 +22,8 @@ tdbc::postgres::connection create db {*}$conninfo
 # define screens
 #set screens [list date  uptime gps]
 #set screens [list datetime uptime gps tmr]
-set screens [list datetime host uptime gps mga56 tmr]
+#set screens [list datetime host uptime gps mga56 tmr]
+set screens [list datetime host uptime gps mga56 tmr nav]
 proc definescreens {} {
     foreach scr $::screens {
         package require $scr
