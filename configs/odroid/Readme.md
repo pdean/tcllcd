@@ -22,6 +22,11 @@
 * ./configure --enable-drivers=curses,hd44780,linux_input
 * **todo** - document lcd wiring to i2c1
 
+    GND -> pin 6  
+    VCC -> pin 4  
+    SDA -> pin 27  
+    SCL -> pin 28  
+
 ## infrared remote
 
 * apt install ir-keytable 
