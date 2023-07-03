@@ -149,9 +149,9 @@ oo::objdefine nav {
                         led1 off 
                         led2 off
                     } else {
-                        led3 off
                         led1 off 
                         led2 off
+                        led3 off
                     }
                     set vehicle [format "speed %.0f m/s  %s" $speed [ compass $track]]
                     set point [format "dist %.0fm %s" $dist [ compass $brg]]
@@ -161,21 +161,12 @@ oo::objdefine nav {
                     lcd puts "widget_set $scr ${scr}4 1 4 {$point}"
                 } else {
                     lcd puts "widget_set $scr ${scr}2 1 2 {NO PTS FD}"
-                        led3 off
-                        led1 off 
-                        led2 off
                 }
             } else {
                 lcd puts "widget_set $scr ${scr}2 1 2 {NO FIX}"
-                        led3 off
-                        led1 off 
-                        led2 off
             }
         } else {
             lcd puts "widget_set $scr ${scr}2 1 2 {NO GPS?}"
-                        led3 off
-                        led1 off 
-                        led2 off
         }
     }
 }

@@ -37,6 +37,9 @@ proc listen {} {
 }
 proc ignore {} {
     task stop
+    led1 off
+    led2 off
+    led3 off
 }
 proc updatescreen {} {
       catch { [lcd screen] updatescreen } 
