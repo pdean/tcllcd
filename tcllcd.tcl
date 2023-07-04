@@ -1,8 +1,6 @@
 #!/usr/bin/env tclsh
 # tcllcd
 
-set datadir /mnt/usb
-
 lappend auto_path lib
 package require task
 package require lcd
@@ -23,11 +21,21 @@ tdbc::postgres::connection create db {*}$conninfo
 #set screens [list date  uptime gps]
 #set screens [list datetime uptime gps tmr]
 #set screens [list datetime host uptime gps mga56 tmr]
-set screens [list datetime host uptime gps mga56 tmr nav]
+#set screens [list datetime host uptime gps mga56 tmr nav]
+
+package require fileutil
+
+set datadir /mnt/usb
+set screens [split [fileutil::cat [file join $datadir screens.txt]]]
+puts $screens
+
 proc definescreens {} {
     foreach scr $::screens {
-        package require $scr
-        $scr definescreen
+        if {[string length $scr]} {
+            puts $scr
+            package require $scr
+            $scr definescreen
+        }
     }
 }
 
