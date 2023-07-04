@@ -1,6 +1,6 @@
 # tcllcd
 
-experiments with single board computer, simple lcd display, some leds, gps. Programmed in tcl. Example code for raspberry pi and odroid c4.
+experiments with lcd, leds, gps, tcl, raspberry pi, odroid c4.
 
 ### other links to code using tcl and lcd
 
