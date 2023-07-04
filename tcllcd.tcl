@@ -18,15 +18,13 @@ tdbc::postgres::connection create db {*}$conninfo
 # set screens [list datetime host uptime gps mga56 tmr nav]
 package require fileutil
 set datadir /mnt/usb
-set screens [split [fileutil::cat [file join $datadir screens.txt]]]
+set screens [fileutil::cat [file join $datadir screens.txt]]
 puts $screens
 proc definescreens {} {
     foreach scr $::screens {
-        if {[string length $scr]} {
-            puts $scr
-            package require $scr
-            $scr definescreen
-        }
+        puts $scr
+        package require $scr
+        $scr definescreen
     }
 }
 
