@@ -131,12 +131,12 @@ oo::objdefine nav {
         dict with tpv {}
 
         if {![info exists mode]} {
-            my puts {NO GPS?} {} {}
+            my putlines $scr {NO GPS?} {} {}
             return
         }
 
         if {$mode < 2} {
-            my puts {NO FIX} {} {}
+            my putlines $scr {NO FIX} {} {}
             return
         }
 
@@ -165,13 +165,13 @@ oo::objdefine nav {
             }
             set point [format "dist %.0fm %s" $dist [ compass $brg]]
             set desc "$name $description"
-            my puts $vehicle $desc $point
+            my putlines  $scr $vehicle $desc $point
         } else {
-            my puts $vehicle {NO PTS FD} {}
+            my putlines $scr $vehicle {NO PTS FD} {}
         }
     }
 
-    method puts {l1 l2 l3} {
+    method putlines {scr l1 l2 l3} {
         lcd puts "widget_set $scr ${scr}2 1 2 {$l1}"
         lcd puts "widget_set $scr ${scr}3 1 3 20 3 h 2 {$l2}"
         lcd puts "widget_set $scr ${scr}4 1 4 {$l3}"
