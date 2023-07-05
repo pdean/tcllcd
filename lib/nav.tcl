@@ -129,47 +129,57 @@ oo::objdefine nav {
         set data [$GPS poll]
         set tpv [lindex [dict get $data tpv] end]
         dict with tpv {}
-        if {[info exists mode]} {
-            if {$mode >= 2} {
-		if {![info exists track]} { set track 0.0 }
-                lassign [$findnext allrows \
-                    [dict create lat $lat lon $lon scr $scr track $track]] res
-                if {[llength $res]} {
-                    dict with res {}
-                    if {$dist < 100} {
-                        led1 blink
-                        led2 off
-                        led3 off
-                    } elseif {$dist < 200} {
-                        led2 blink
-                        led3 off 
-                        led1 off  
-                    } elseif {$dist < 300} {
-                        led3 blink
-                        led1 off 
-                        led2 off
-                    } else {
-                        led1 off 
-                        led2 off
-                        led3 off
-                    }
-                    set vehicle [format "speed %.0f m/s  %s" $speed [ compass $track]]
-                    set point [format "dist %.0fm %s" $dist [ compass $brg]]
-                    set desc "$name $description"
-                    lcd puts "widget_set $scr ${scr}2 1 2 {$vehicle}"
-                    lcd puts "widget_set $scr ${scr}3 1 3 20 3 h 2 {$desc}"
-                    lcd puts "widget_set $scr ${scr}4 1 4 {$point}"
-                } else {
-                    lcd puts "widget_set $scr ${scr}2 1 2 {NO PTS FD}"
-                }
+
+        if {![info exists mode]} {
+            my puts {NO GPS?} {} {}
+            return
+        }
+
+        if {$mode < 2} {
+            my puts {NO FIX} {} {}
+            return
+        }
+
+        if {![info exists track]} { set track 0.0 }
+        set vehicle [format "speed %.0f m/s  %s" $speed [ compass $track]]
+        lassign [$findnext allrows \
+            [dict create lat $lat lon $lon scr $scr track $track]] res
+        if {[llength $res]} {
+            dict with res {}
+            if {$dist < 100} {
+                led1 blink
+                led2 off
+                led3 off
+            } elseif {$dist < 200} {
+                led2 blink
+                led3 off
+                led1 off
+            } elseif {$dist < 300} {
+                led3 blink
+                led1 off
+                led2 off
             } else {
-                lcd puts "widget_set $scr ${scr}2 1 2 {NO FIX}"
+                led1 off
+                led2 off
+                led3 off
             }
+            set point [format "dist %.0fm %s" $dist [ compass $brg]]
+            set desc "$name $description"
+            my puts $vehicle $desc $point
         } else {
-            lcd puts "widget_set $scr ${scr}2 1 2 {NO GPS?}"
+            my puts $vehicle {NO PTS FD} {}
         }
     }
+
+    method puts {l1 l2 l3} {
+        lcd puts "widget_set $scr ${scr}2 1 2 {$l1}"
+        lcd puts "widget_set $scr ${scr}3 1 3 20 3 h 2 {$l2}"
+        lcd puts "widget_set $scr ${scr}4 1 4 {$l3}"
+    }
+
 }
+
+
 
 package provide nav 1.0
 #
