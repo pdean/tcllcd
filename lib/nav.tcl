@@ -140,34 +140,65 @@ oo::objdefine nav {
             return
         }
 
-        if {![info exists track]} { set track 0.0 }
-        set vehicle [format "speed %.0f m/s  %s" $speed [ compass $track]]
-        lassign [$findnext allrows \
-            [dict create lat $lat lon $lon scr $scr track $track]] res
-        if {[llength $res]} {
-            dict with res {}
-            if {$dist < 100} {
-                led1 blink
-                led2 off
-                led3 off
-            } elseif {$dist < 200} {
-                led2 blink
-                led3 off
-                led1 off
-            } elseif {$dist < 300} {
-                led3 blink
-                led1 off
-                led2 off
+        if {[info exists track] && $speed > 0.5} {
+            set vehicle [format "speed %.0f m/s  %s" $speed [ compass $track]]
+            lassign [$findnext allrows \
+                [dict create lat $lat lon $lon scr $scr track $track]] res
+            if {[llength $res]} {
+                dict with res {}
+                set secs [expr {$dist/$speed}]
+                if {$secs < 5} {
+                    led1 blink
+                    led2 off
+                    led3 off
+                } elseif {$secs < 10} {
+                    led2 blink
+                    led3 off
+                    led1 off
+                } elseif {$secs < 15} {
+                    led3 blink
+                    led1 off
+                    led2 off
+                } else {
+                    led1 off
+                    led2 off
+                    led3 off
+                }
+                set point [format "dist %.0fm %s" $dist [ compass $brg]]
+                set desc "$name $description"
+                my putlines  $scr $vehicle $desc $point
             } else {
-                led1 off
-                led2 off
-                led3 off
+                my putlines $scr $vehicle {NO PTS FD} {}
             }
-            set point [format "dist %.0fm %s" $dist [ compass $brg]]
-            set desc "$name $description"
-            my putlines  $scr $vehicle $desc $point
         } else {
-            my putlines $scr $vehicle {NO PTS FD} {}
+            set vehicle [format "%s" "not moving" ]
+            lassign [$findclose allrows \
+                [dict create lat $lat lon $lon scr $scr ]] res
+            if {[llength $res]} {
+                dict with res {}
+                if {$dist < 100} {
+                    led1 on
+                    led2 off
+                    led3 off
+                } elseif {$dist < 200} {
+                    led2 on
+                    led3 off
+                    led1 off
+                } elseif {$dist < 300} {
+                    led3 on
+                    led1 off
+                    led2 off
+                } else {
+                    led1 off
+                    led2 off
+                    led3 off
+                }
+                set point [format "dist %.0fm %s" $dist [ compass $brg]]
+                set desc "$name $description"
+                my putlines  $scr $vehicle $desc $point
+            } else {
+                my putlines $scr $vehicle {NO PTS FD} {}
+            }
         }
     }
 

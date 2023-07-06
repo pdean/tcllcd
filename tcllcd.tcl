@@ -44,7 +44,8 @@ proc updatescreen {} {
 proc init {} {
     lcd connect
     task init
-    task repeat 500
+    task repeat 200
+    #task repeat 2000
     definescreens
     task action updatescreen
     lcd onlisten listen
