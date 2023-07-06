@@ -55,28 +55,28 @@ oo::objdefine tmr {
         set tpv [lindex [dict get $data tpv] end]
         dict with tpv {}
 
-        if {[info exists mode]} {
-            if {$mode >= 2} {
-                lassign [$pt2ch allrows [dict create lat $lat lon $lon]] res
-                #puts "$time: $res"
-                dict with res {}
-
-                if {![info exists track]} { set track 0.0 }
-                set vehicle [format "speed %.0f m/s  %s" $speed [ compass $track]]
-                lcd puts "widget_set $scr ${scr}2 1 2 {$vehicle}"
-                
-                set chos [format "%.3f km  %.0f m" $ch $os]
-                lcd puts "widget_set $scr ${scr}4 1 4 {$chos}"
-                
-                lcd puts "widget_set $scr ${scr}3 1 3 20 3 h 2 {$description}"
-
-            } else {
-                lcd puts "widget_set $scr ${scr}2 1 2 {NO FIX}"
-            }
-        } else {
-            lcd puts "widget_set $scr ${scr}2 1 2 {NO GPS?}"
+        if {![info exists mode]} {
+            my putlines  {NO GPS?} {} {}
+            return
         }
+        if {$mode < 2} {
+            my putlines  {NO FIX} {} {}
+            return
+        }
+        lassign [$pt2ch allrows [dict create lat $lat lon $lon]] res
+        dict with res {}
+        if {![info exists track]} { set track 0.0 }
+        set vehicle [format "speed %.0f m/s  %s" $speed [ compass $track]]
+        set chos [format "%.3f km  %.0f m" $ch $os]
+        my putlines $vehicle $description $chos
     }
+
+    method putlines {l1 l2 l3} {
+        lcd puts "widget_set $scr ${scr}2 1 2 {$l1}"
+        lcd puts "widget_set $scr ${scr}3 1 3 20 3 h 2 {$l2}"
+        lcd puts "widget_set $scr ${scr}4 1 4 {$l3}"
+    }
+
 }
 
 package provide tmr 1.0
